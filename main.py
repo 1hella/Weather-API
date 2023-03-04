@@ -3,7 +3,7 @@ import pandas as pd
 
 app = Flask(__name__)
 
-stations_df = pd.read_csv('data_small/stations.txt', skiprows=17)
+stations_df = pd.read_csv('data/stations.txt', skiprows=17)
 stations_df = stations_df[['STAID', 'STANAME                                 ']]
 
 
@@ -14,7 +14,7 @@ def home():
 
 @app.route("/api/v1/<station>/<date>")
 def about(station, date):
-    filename = f"data_small/TG_STAID{str(station).zfill(6)}.txt"
+    filename = f"data/TG_STAID{str(station).zfill(6)}.txt"
     df = pd.read_csv(filename, skiprows=20, parse_dates=['    DATE'])
     row = df.loc[df['    DATE'] == date]
     temperature = row['   TG'].squeeze() / 10
@@ -25,7 +25,7 @@ def about(station, date):
 
 @app.route("/api/v1/<station>")
 def all_data(station):
-    filename = f"data_small/TG_STAID{str(station).zfill(6)}.txt"
+    filename = f"data/TG_STAID{str(station).zfill(6)}.txt"
     df = pd.read_csv(filename, skiprows=20, parse_dates=['    DATE'])
     result = df.to_dict(orient="records")
     return result
@@ -33,7 +33,7 @@ def all_data(station):
 
 @app.route("/api/v1/yearly/<station>/<year>")
 def yearly(station, year):
-    filename = f"data_small/TG_STAID{str(station).zfill(6)}.txt"
+    filename = f"data/TG_STAID{str(station).zfill(6)}.txt"
     df = pd.read_csv(filename, skiprows=20)
     df['    DATE'] = df["    DATE"].astype(str)
     result = df.loc[df['    DATE'].str.startswith(year)].to_dict(orient="records")
