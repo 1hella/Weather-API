@@ -6,11 +6,6 @@ import os
 # must create data.db
 connection = sqlite3.connect("data.db")
 
-# cursor = connection.cursor()
-# cursor.execute("DELETE FROM temperatures")
-# cursor.execute("DELETE FROM stations")
-# connection.commit()
-
 stations_df = pd.read_csv(f'{os.path.dirname(__file__)}/{DATA_FOLDER}/stations.txt', skiprows=17)
 stations_df = stations_df[['STAID', 'STANAME                                 ']]
 stations_df.rename(columns={"STAID": "staid", "STANAME                                 ": "staname"}, inplace=True)
